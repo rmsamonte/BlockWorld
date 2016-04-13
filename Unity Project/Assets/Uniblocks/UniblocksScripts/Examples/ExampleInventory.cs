@@ -7,67 +7,67 @@ using Game.Scripts.UI.Screens;
 
 // stores the currently held block, and switches it with 1-9 keys
 
-namespace Uniblocks 
+namespace Uniblocks
 {
-    public class ExampleInventory : MonoBehaviour 
-    {
-	    public static ushort HeldBlock;	        
+	public class ExampleInventory : MonoBehaviour
+	{
+		public static ushort HeldBlock;
 
-        public void Update () 
-        {
-	
-		    // change held block with 1-9 keys
-		    for (ushort i=0; i<10; i++) 
-            {
-			    if (Input.GetKeyDown(i.ToString())) 
-                {
-				    if ( Engine.GetVoxelType (i) != null) 
-                    {
-					    ExampleInventory.HeldBlock = i;
-					    
-                        //Update the current selected block in the inventory sound manager
-                        UpdateCurrentlySelectedSound(i);
-                        
-                        PlaySelectSound();
-                        SelectBlock(i);
-                    }
-			    }
-		    }	
-        }
+		public void Update()
+		{
 
-        private void PlaySelectSound()
-        {
-            var audioManager = Service.Get<AudioManager>();
+			// change held block with 1-9 keys
+			for (ushort i = 0; i < 10; i++)
+			{
+				if (Input.GetKeyDown(i.ToString()))
+				{
+					if (Engine.GetVoxelType(i) != null)
+					{
+						ExampleInventory.HeldBlock = i;
 
-            if (audioManager != null)
-            {
-                audioManager.PlaySound("UI_SELECTOR");
-            }
-        }
+						//Update the current selected block in the inventory sound manager
+						UpdateCurrentlySelectedSound(i);
 
-        private void UpdateCurrentlySelectedSound(int id)
-        {
-            var inventorySoundManager = Service.Get<InventorySoundManager>();
+						PlaySelectSound();
+						SelectBlock(i);
+					}
+				}
+			}
+		}
 
-            if (inventorySoundManager != null)
-            {
-                inventorySoundManager.CurrentBlockSound = (Game.Scripts.UI.InventorySoundManager.Blocks)id;
-            }
-        }
+		private void PlaySelectSound()
+		{
+			var audioManager = Service.Get<AudioManager>();
 
-        private void SelectBlock(int index)
-        {
-            var screenManager = Service.Get<ScreenManager>();
+			if (audioManager != null)
+			{
+				audioManager.PlaySound("UI_SELECTOR");
+			}
+		}
 
-            if( screenManager != null )
-            {
-                var gameScreen = screenManager.GetScreen("GameScreen") as GameScreen;
+		private void UpdateCurrentlySelectedSound(int id)
+		{
+			var inventorySoundManager = Service.Get<InventorySoundManager>();
 
-                if( gameScreen != null )
-                {
-                    gameScreen.SelectBlock(index);
-                }
-            }
-        }
-    }
+			if (inventorySoundManager != null)
+			{
+				inventorySoundManager.CurrentBlockSound = (Game.Scripts.UI.InventorySoundManager.Blocks)id;
+			}
+		}
+
+		private void SelectBlock(int index)
+		{
+			var screenManager = Service.Get<ScreenManager>();
+
+			if (screenManager != null)
+			{
+				var gameScreen = screenManager.GetScreen("GameScreen") as GameScreen;
+
+				if (gameScreen != null)
+				{
+					gameScreen.SelectBlock(index);
+				}
+			}
+		}
+	}
 }

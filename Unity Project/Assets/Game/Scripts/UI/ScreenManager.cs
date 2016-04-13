@@ -13,148 +13,148 @@ using Game.Scripts.UI.Screens;
 
 namespace Game.Scripts.UI
 {
-    public class ScreenManager
-    {
-        private GameObject uiSystem;
-        private RectTransform Layers;
-        private RectTransform LayerGame;
-        private RectTransform LayerWindow;
-        private RectTransform LayerHud;
-        private RectTransform Popup;
-        private RectTransform BlackScreen;
+	public class ScreenManager
+	{
+		private GameObject uiSystem;
+		private RectTransform Layers;
+		private RectTransform LayerGame;
+		private RectTransform LayerWindow;
+		private RectTransform LayerHud;
+		private RectTransform Popup;
+		private RectTransform BlackScreen;
 
-        private Dictionary<string, BaseScreen> screens;
+		private Dictionary<string, BaseScreen> screens;
 
-        public ScreenManager( GameObject uiSystem )
-        {
-            this.uiSystem = uiSystem;
-            Layers = UnityUtils.FindChildByName( this.uiSystem, Constants.Layers.LAYERS ).GetComponent<RectTransform>();
-            LayerGame = UnityUtils.FindChildByName(Layers.gameObject, Constants.Layers.GAME).GetComponent<RectTransform>();
-            LayerWindow = UnityUtils.FindChildByName(Layers.gameObject, Constants.Layers.WINDOW).GetComponent<RectTransform>();
-            LayerHud = UnityUtils.FindChildByName(Layers.gameObject, Constants.Layers.HUD).GetComponent<RectTransform>();
-            Popup = UnityUtils.FindChildByName(Layers.gameObject, Constants.Layers.POPUP).GetComponent<RectTransform>();
-            BlackScreen = UnityUtils.FindChildByName(Layers.gameObject, Constants.Layers.BLACKSCREEN).GetComponent<RectTransform>();
+		public ScreenManager(GameObject uiSystem)
+		{
+			this.uiSystem = uiSystem;
+			Layers = UnityUtils.FindChildByName(this.uiSystem, Constants.Layers.LAYERS).GetComponent<RectTransform>();
+			LayerGame = UnityUtils.FindChildByName(Layers.gameObject, Constants.Layers.GAME).GetComponent<RectTransform>();
+			LayerWindow = UnityUtils.FindChildByName(Layers.gameObject, Constants.Layers.WINDOW).GetComponent<RectTransform>();
+			LayerHud = UnityUtils.FindChildByName(Layers.gameObject, Constants.Layers.HUD).GetComponent<RectTransform>();
+			Popup = UnityUtils.FindChildByName(Layers.gameObject, Constants.Layers.POPUP).GetComponent<RectTransform>();
+			BlackScreen = UnityUtils.FindChildByName(Layers.gameObject, Constants.Layers.BLACKSCREEN).GetComponent<RectTransform>();
 
-            screens = new Dictionary<string, BaseScreen>();
-        }
+			screens = new Dictionary<string, BaseScreen>();
+		}
 
-        public void AddScreen(BaseScreen screen)
-        {
-            if( screen == null )
-            {
-                return;
-            }
+		public void AddScreen(BaseScreen screen)
+		{
+			if (screen == null)
+			{
+				return;
+			}
 
-            screens.Add( screen.ScreenName, screen );
+			screens.Add(screen.ScreenName, screen);
 
-            switch( screen.Layer )
-            {
-                case Constants.Layers.GAME:
-                    screen.RectTransform.SetParent( LayerGame, false );
-                    break;
-                case Constants.Layers.WINDOW:
-                    screen.RectTransform.SetParent(LayerWindow, false);
-                    break;
-                case Constants.Layers.HUD:
-                    screen.RectTransform.SetParent(LayerHud, false);
-                    break;
-                case Constants.Layers.POPUP:
-                    screen.RectTransform.SetParent(Popup, false);
-                    break;
-                case Constants.Layers.BLACKSCREEN:
-                    screen.RectTransform.SetParent(BlackScreen, false);
-                    break;
-                default:
-                    break;
-            }
+			switch (screen.Layer)
+			{
+				case Constants.Layers.GAME:
+					screen.RectTransform.SetParent(LayerGame, false);
+					break;
+				case Constants.Layers.WINDOW:
+					screen.RectTransform.SetParent(LayerWindow, false);
+					break;
+				case Constants.Layers.HUD:
+					screen.RectTransform.SetParent(LayerHud, false);
+					break;
+				case Constants.Layers.POPUP:
+					screen.RectTransform.SetParent(Popup, false);
+					break;
+				case Constants.Layers.BLACKSCREEN:
+					screen.RectTransform.SetParent(BlackScreen, false);
+					break;
+				default:
+					break;
+			}
 
-            screen.transform.SetAsLastSibling();
-            screen.transform.localScale = Vector3.one;
-            screen.transform.localPosition = Vector3.zero;
-            screen.transform.localRotation = Quaternion.identity;
-        }
+			screen.transform.SetAsLastSibling();
+			screen.transform.localScale = Vector3.one;
+			screen.transform.localPosition = Vector3.zero;
+			screen.transform.localRotation = Quaternion.identity;
+		}
 
-        public BaseScreen GetScreen(string screenName)
-        {
-            return screens[screenName];
-        }
+		public BaseScreen GetScreen(string screenName)
+		{
+			return screens[screenName];
+		}
 
-        public void RemoveScreen(BaseScreen screen)
-        {
-            screens.Remove(screen.ScreenName);
-            GameObject.Destroy(screen.Root);
-            screen = null;
-        }
+		public void RemoveScreen(BaseScreen screen)
+		{
+			screens.Remove(screen.ScreenName);
+			GameObject.Destroy(screen.Root);
+			screen = null;
+		}
 
-        public void FadeOut( Action onComplete )
-        {
-            var blackScreen = screens["BlackScreen"] as BlackScreen;            
-            
-            if( blackScreen != null )
-            {
-                blackScreen.Enable();
-                blackScreen.FadeOut();
-            }
+		public void FadeOut(Action onComplete)
+		{
+			var blackScreen = screens["BlackScreen"] as BlackScreen;
 
-            var core = Service.Get<Core>();
+			if (blackScreen != null)
+			{
+				blackScreen.Enable();
+				blackScreen.FadeOut();
+			}
 
-            if (core != null )
-            {
-                core.GameStartCoroutine(DoFadeDelayOut(onComplete));
-            }            
-        }
+			var core = Service.Get<Core>();
 
-        public void FadeIn( Action onComplete )
-        {
-            var blackScreen = screens["BlackScreen"] as BlackScreen;            
+			if (core != null)
+			{
+				core.GameStartCoroutine(DoFadeDelayOut(onComplete));
+			}
+		}
 
-            if (blackScreen != null)
-            {
-                blackScreen.Enable();
-                blackScreen.FadeIn();
-            }
+		public void FadeIn(Action onComplete)
+		{
+			var blackScreen = screens["BlackScreen"] as BlackScreen;
 
-            var core = Service.Get<Core>();
+			if (blackScreen != null)
+			{
+				blackScreen.Enable();
+				blackScreen.FadeIn();
+			}
 
-            if (core != null)
-            {
-                core.GameStartCoroutine(DoFadeDelayIn(onComplete));
-            }
-        }
+			var core = Service.Get<Core>();
 
-        private IEnumerator DoFadeDelayIn(Action onComplete)
-        {
-            yield return new WaitForSeconds(Constants.ScreenManager.FADE_IN_TIME);
+			if (core != null)
+			{
+				core.GameStartCoroutine(DoFadeDelayIn(onComplete));
+			}
+		}
 
-            if (onComplete != null)
-            {
-                onComplete();
-            }
+		private IEnumerator DoFadeDelayIn(Action onComplete)
+		{
+			yield return new WaitForSeconds(Constants.ScreenManager.FADE_IN_TIME);
 
-            var blackScreen = GetScreen("BlackScreen") as BlackScreen;
+			if (onComplete != null)
+			{
+				onComplete();
+			}
 
-            if (blackScreen != null)
-            {
-                blackScreen.Disable();
-            }
-        }
+			var blackScreen = GetScreen("BlackScreen") as BlackScreen;
 
-        private IEnumerator DoFadeDelayOut(Action onComplete)
-        {
-            yield return new WaitForSeconds(Constants.ScreenManager.FADE_IN_TIME);
+			if (blackScreen != null)
+			{
+				blackScreen.Disable();
+			}
+		}
 
-            if (onComplete != null)
-            {
-                onComplete();
-            }
+		private IEnumerator DoFadeDelayOut(Action onComplete)
+		{
+			yield return new WaitForSeconds(Constants.ScreenManager.FADE_IN_TIME);
 
-            var blackScreen = GetScreen("BlackScreen") as BlackScreen;
+			if (onComplete != null)
+			{
+				onComplete();
+			}
 
-            if (blackScreen != null)
-            {
-                blackScreen.Disable();
-            }
-        }
-    }
+			var blackScreen = GetScreen("BlackScreen") as BlackScreen;
+
+			if (blackScreen != null)
+			{
+				blackScreen.Disable();
+			}
+		}
+	}
 }
 
