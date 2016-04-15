@@ -60,7 +60,7 @@ public class PowerUpManager : MonoBehaviour
 						Transform t = Instantiate(powerUp);
 						spawnedPowerUp = t.gameObject;
 						spawnedPowerUp.transform.parent = chunk.transform;
-						spawnedPowerUp.transform.localPosition = new Vector3(x, y + 1, z);
+						spawnedPowerUp.transform.localPosition = new Vector3(x, y + .5f, z);
 
 						done = true;
 
