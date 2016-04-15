@@ -379,7 +379,7 @@ namespace Uniblocks
 		private GameObject GetBlock(ushort data)
 		{ // returns the prefab of the block with a given index
 
-			Object blockObject = AssetDatabase.LoadAssetAtPath(GetBlockPath(data), typeof(Object));
+			Object blockObject = AssetDatabase.LoadAssetAtPath("Assets/Resources/" + GetBlockPath(data), typeof(Object));
 			GameObject block = null;
 
 			if (blockObject != null)
