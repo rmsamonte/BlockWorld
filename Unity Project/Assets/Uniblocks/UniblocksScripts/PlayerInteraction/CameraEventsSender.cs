@@ -75,8 +75,8 @@ namespace Uniblocks
 				Destroy(voxelObject);
 
 			}
-
-			else {
+			else
+			{
 				// disable selected block ui when no block is hit
 
 				if (SelectedBlockGraphics != null)
@@ -125,8 +125,8 @@ namespace Uniblocks
 				Destroy(voxelObject);
 
 			}
-
-			else {
+			else
+			{
 				// disable selected block ui when no block is hit
 				if (SelectedBlockGraphics != null)
 				{

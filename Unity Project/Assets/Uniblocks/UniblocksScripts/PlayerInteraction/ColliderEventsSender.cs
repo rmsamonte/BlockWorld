@@ -45,12 +45,12 @@ namespace Uniblocks
 				// OnEnter
 				if (chunk != lastChunk || voxelIndex.IsEqual(voxelIndex) == false)
 				{
-					events.OnBlockEnter(this.gameObject, voxelInfo);
+					events.OnBlockEnter(gameObject, voxelInfo);
 				}
 
 				// OnStay
 				else {
-					events.OnBlockStay(this.gameObject, voxelInfo);
+					events.OnBlockStay(gameObject, voxelInfo);
 				}
 			}
 

@@ -348,14 +348,13 @@ namespace Uniblocks
 					if (ignoreTransparent)
 					{ // punch through transparent voxels by raycasting again when a transparent voxel is hit
 						ushort hitVoxel = hitObject.GetComponent<Chunk>().GetVoxel(hitIndex.x, hitIndex.y, hitIndex.z);
-						if (Engine.GetVoxelType(hitVoxel).VTransparency != Transparency.solid)
+						if (GetVoxelType(hitVoxel).VTransparency != Transparency.solid)
 						{ // if the hit voxel is transparent
 							Vector3 newOrigin = hit.point;
 							newOrigin.y -= 0.5f; // push the new raycast down a bit
-							return Engine.VoxelRaycast(newOrigin, Vector3.down, range - hit.distance, true);
+							return VoxelRaycast(newOrigin, Vector3.down, range - hit.distance, true);
 						}
 					}
-
 
 					return new VoxelInfo(
 										 hitObject.GetComponent<Chunk>().PositionToVoxelIndex(hit.point, hit.normal, false), // get hit voxel index
@@ -370,7 +369,7 @@ namespace Uniblocks
 
 		public static VoxelInfo VoxelRaycast(Ray ray, float range, bool ignoreTransparent)
 		{
-			return Engine.VoxelRaycast(ray.origin, ray.direction, range, ignoreTransparent);
+			return VoxelRaycast(ray.origin, ray.direction, range, ignoreTransparent);
 		}
 
 
@@ -378,24 +377,24 @@ namespace Uniblocks
 
 		public static Index PositionToChunkIndex(Vector3 position)
 		{
-			Index chunkIndex = new Index(Mathf.RoundToInt(position.x / Engine.ChunkScale.x) / Engine.ChunkSideLength,
-										  Mathf.RoundToInt(position.y / Engine.ChunkScale.y) / Engine.ChunkSideLength,
-										  Mathf.RoundToInt(position.z / Engine.ChunkScale.z) / Engine.ChunkSideLength);
+			Index chunkIndex = new Index(Mathf.RoundToInt(position.x / ChunkScale.x) / ChunkSideLength,
+										  Mathf.RoundToInt(position.y / ChunkScale.y) / ChunkSideLength,
+										  Mathf.RoundToInt(position.z / ChunkScale.z) / ChunkSideLength);
 			return chunkIndex;
 		}
 
 		public static GameObject PositionToChunk(Vector3 position)
 		{
-			Index chunkIndex = new Index(Mathf.RoundToInt(position.x / Engine.ChunkScale.x) / Engine.ChunkSideLength,
-										  Mathf.RoundToInt(position.y / Engine.ChunkScale.y) / Engine.ChunkSideLength,
-										  Mathf.RoundToInt(position.z / Engine.ChunkScale.z) / Engine.ChunkSideLength);
+			Index chunkIndex = new Index(Mathf.RoundToInt(position.x / ChunkScale.x) / ChunkSideLength,
+										  Mathf.RoundToInt(position.y / ChunkScale.y) / ChunkSideLength,
+										  Mathf.RoundToInt(position.z / ChunkScale.z) / ChunkSideLength);
 			return ChunkManager.GetChunk(chunkIndex);
 
 		}
 
 		public static VoxelInfo PositionToVoxelInfo(Vector3 position)
 		{
-			GameObject chunkObject = Engine.PositionToChunk(position);
+			GameObject chunkObject = PositionToChunk(position);
 			if (chunkObject != null)
 			{
 				Chunk chunk = chunkObject.GetComponent<Chunk>();
@@ -421,7 +420,7 @@ namespace Uniblocks
 		public static Vector2 GetTextureOffset(ushort voxel, Facing facing)
 		{
 
-			Voxel voxelType = Engine.GetVoxelType(voxel);
+			Voxel voxelType = GetVoxelType(voxel);
 			Vector2[] textureArray = voxelType.VTexture;
 
 			if (textureArray.Length == 0)

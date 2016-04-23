@@ -72,7 +72,8 @@ namespace Uniblocks
 			{
 				// data is loaded through TryLoadVoxelData()
 			}
-			else {
+			else
+			{
 				GenerateVoxelData();
 			}
 
@@ -265,9 +266,8 @@ namespace Uniblocks
 				}
 				else return ushort.MaxValue;
 			}
-
-
-			else {
+			else
+			{
 				return VoxelData[(z * SquaredSideLength) + (y * SideLength) + x];
 			}
 		}
@@ -330,8 +330,9 @@ namespace Uniblocks
 						}
 					}
 				}
-
-				else { // if saving is disabled, destroy immediately
+				else
+				{
+					// if saving is disabled, destroy immediately
 					Destroy(this.gameObject);
 				}
 
@@ -376,7 +377,8 @@ namespace Uniblocks
 				{ // for even indexes, add one; for odd, subtract one (because the neighbors are in opposite direction to this chunk)
 					i = loop + 1;
 				}
-				else {
+				else
+				{
 					i = loop - 1;
 				}
 
@@ -500,15 +502,12 @@ namespace Uniblocks
 		}
 
 		public Index PositionToVoxelIndex(Vector3 position, Vector3 normal, bool returnAdjacent)
-		{ // converts the absolute position to the index of the voxel
-
+		{
+			// converts the absolute position to the index of the voxel
 			if (returnAdjacent == false)
-			{
 				position = position - (normal * 0.25f); // push the hit point into the cube
-			}
-			else {
+			else
 				position = position + (normal * 0.25f); // push the hit point outside of the cube
-			}
 
 
 			// convert world position to chunk's local position

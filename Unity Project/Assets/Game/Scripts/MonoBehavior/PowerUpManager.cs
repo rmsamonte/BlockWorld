@@ -9,6 +9,11 @@ public class PowerUpManager : MonoBehaviour
 	public float defaultPowerUpStrength = 0;
 	public Transform powerUp;
 
+	public Chunk Chunk
+	{
+		get { return chunk; }
+	}
+
 	private GameObject spawnedPowerUp;
 	private float counter = 0;
 
