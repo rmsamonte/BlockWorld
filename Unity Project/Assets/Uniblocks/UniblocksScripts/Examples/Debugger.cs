@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using Game.Scripts;
 using Game.Scripts.Audio;
 using Game.Scripts.UI;
@@ -18,9 +19,13 @@ namespace Uniblocks
 
 		private GameScreen gameScreen;
 
+		private CharacterController chrCtrl;
+
 		void Awake()
 		{
 			GetComponent<CharacterMotor>().enabled = true;
+			chrCtrl = GetComponent<CharacterController>();
+			chrCtrl.enabled = false;
 		}
 
 		void Start()
@@ -35,6 +40,9 @@ namespace Uniblocks
 
 		void Update()
 		{
+			if (!chrCtrl.enabled && !ChunkManager.SpawningChunks)
+				chrCtrl.enabled = true;
+
 			energy -= Time.deltaTime;
 
 			UpdateEnergy();
@@ -105,6 +113,15 @@ namespace Uniblocks
 		public void AddEnergy(float powerup)
 		{
 			energy += powerup;
+		}
+
+		public void ResetPosition()
+		{
+			Dictionary<string, Chunk>.Enumerator e = ChunkManager.Chunks.GetEnumerator();
+			e.MoveNext();
+			Chunk chunk = e.Current.Value;
+
+			transform.position = chunk.transform.position + Vector3.up * Engine.ChunkSideLength;
 		}
 
 		private void EnableFlashlight(bool on)

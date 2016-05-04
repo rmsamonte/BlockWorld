@@ -12,9 +12,6 @@ namespace Game.Scripts.UI.Screens
 	{
 		public const string PREFAB_PATH = "Data/UI/Prefabs/GameScreen/ui_game_screen";
 
-		private GameObject player;
-		private GameObject selectedBlockGraphics;
-
 		//NOTE: I should have named "BlockWindow" to something more generic.
 		private BlockWindow[] blockWindows;
 		private BlockWindow torchWidget;
@@ -68,11 +65,12 @@ namespace Game.Scripts.UI.Screens
 
 		private void InitializeUniblocksGameObjects()
 		{
-			selectedBlockGraphics = UnityUtils.CreateGameObject("Data/Game/Uniblocks/UniblocksObjects/Other/selected block graphics");
+			GameObject selectedBlockGraphics = UnityUtils.CreateGameObject("Data/Game/Uniblocks/UniblocksObjects/Other/selected block graphics");
 			selectedBlockGraphics.name = "selected block graphics";
 			UnityUtils.CreateGameObject("Data/Game/Uniblocks/UniblocksObjects/UniBlocks Engine");
 			UnityUtils.CreateGameObject("Data/Game/Uniblocks/UniblocksObjects/SimpleSun");
-			player = UnityUtils.CreateGameObject("Data/Game/Uniblocks/UniblocksObjects/Player/Uniblocks Dude");
+			UnityUtils.CreateGameObject("Data/Game/DropDownTrigger");
+			GameObject player = UnityUtils.CreateGameObject("Data/Game/Uniblocks/UniblocksObjects/Player/Uniblocks Dude");
 			player.name = Constants.Game.SINGLE_PLAYER_NAME;
 			player.transform.position = new Vector3(0, 52, 0);
 		}
